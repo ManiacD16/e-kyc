@@ -1,0 +1,35 @@
+
+header {
+    background-color: #342c29;
+    font-size: 20px;
+}
+
+.bg-light-blue {
+    background-color: #3c65b1 !important;
+    
+}
+
+nav ul {
+    list-style: none;
+}
+
+.branding {
+    text-decoration: none;
+    color: orange;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: orange !important;
+    transition: 0.5s;
+}
+
+.active {
+    color: orange;
+}

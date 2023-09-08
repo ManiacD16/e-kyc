@@ -1,0 +1,39 @@
+
+
+input,  select {
+    box-sizing: content-box;
+    width: 100%;
+}
+
+
+.form-group {
+    margin-bottom: 1rem; 
+    width: 100%;
+}
+
+
+.sidebar {
+    font-size: 18px;
+    font-weight: bold;
+    height: 40px;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+}
+
+
+
+.active {
+    color: dodgerblue;
+}
+
+.documents label {
+    font-size: 18px;
+}
+
+.documents input {
+    margin-bottom: 20px;
+}

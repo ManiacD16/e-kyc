@@ -1,0 +1,183 @@
+<!-- <p>new-customer works!</p> -->
+
+<section id="new_customer" class="container my-2">
+  <div class="row">
+    <div class="col-lg-7 p-5">
+      <div
+        class="col-12 col-md-12 d-flex justify-content-around align-items-center sidebar shadow"
+      >
+        <div
+          [class.active]="this.currentForm == 'details'"
+          (click)="change('details')"
+        >
+          Details
+        </div>
+        <div
+          [class.active]="this.currentForm == 'documents'"
+          (click)="change('documents')"
+        >
+          Documents
+        </div>
+        <div
+          [class.active]="this.currentForm == 'preview'"
+          (click)="change('preview')"
+        >
+          Preview
+        </div>
+      </div>
+      <div class="col-md-12 col-12 p-5 gx-3" [ngSwitch]="this.currentForm">
+        <div class="details" *ngSwitchCase="'details'">
+          <form #detailsForm="ngForm">
+            <div class="form-group">
+              <input
+                [(ngModel)]="this.firstName"
+                #Firstname="ngModel"
+                name="firstName"
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                [(ngModel)]="this.lastname"
+                #lastName="ngModel"
+                name="lastName"
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                [(ngModel)]="this.fatherName"
+                #fathername="ngModel"
+                name="fatherName"
+                type="text"
+                class="form-control"
+                placeholder="Father's Name"
+                required
+              />
+            </div>
+            <div class="form-group row">
+              <div class="col-6">
+                <div class="input-group w-100">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">DOB</span>
+                  </div>
+                  <input
+                    [(ngModel)]="this.dob"
+                    #DOB="ngModel"
+                    name="dob"
+                    type="date"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6">
+                <select
+                  [(ngModel)]="this.gender"
+                  #Gender="ngModel"
+                  name="gender"
+                  class="form-select w-100"
+                  aria-label="Default select"
+                  required
+                >
+                  <option selected disabled>Gender</option>
+                  <option value="1">Male</option>
+                  <option value="2">Female</option>
+                  <option value="3">Not-defined</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                [(ngModel)]="this.mobile_no"
+                #phone="ngModel"
+                name="mobile_no"
+                type="text"
+                class="form-control"
+                placeholder="Mobile Number"
+              />
+            </div>
+
+            <div class="form-group">
+              <button
+                class="btn btn-success"
+                (click)="submitDetails()"
+                [disabled]="detailsForm.invalid"
+              >
+                Next
+              </button>
+              <button class="btn btn-secondary mx-1">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="documents" *ngSwitchCase="'documents'">
+          <form #documentForm="ngForm">
+            <label for="adhaar">Upload Adhaar Card</label>
+            <input
+              type="file"
+              id="adhaar"
+              class="form-control"
+              data-bs-buttonText="Your label here."
+            />
+            <input
+              [(ngModel)]="this.adhaar_no"
+              #adhaar="ngModel"
+              name="adhaar"
+              type="text"
+              class="form-control"
+              placeholder="Adhaar No."
+              maxlength="12"
+              minlength="12"
+              required
+            />
+
+            <p *ngIf="(!this.validAdhar && adhaar.touched) || (adhaar.touched && adhaar.invalid)" class="text-danger">
+              Adhaar number not Valid!
+            </p>
+
+            <p *ngIf="this.validAdhar && adhaar.touched" class="text-success">
+              Valid! Adhaar Number
+            </p>
+
+            <label for="pancard">Upload Pan Card</label>
+            <input type="file" id="pancard" class="form-control" />
+            <input
+              [(ngModel)]="this.pan_no"
+              #pan
+              name="pan_no"
+              type="text"
+              class="form-control"
+              placeholder="Pan Card No."
+              required
+            />
+
+            <button class="btn btn-success" (click)="this.submitDocuments()" [disabled]="documentForm.invalid">
+              Next
+            </button>
+            <button class="btn btn-secondary mx-1">Reset</button>
+          </form>
+        </div>
+
+        <div class="preview" *ngSwitchCase="'preview'">
+          <p>First Name: {{ this.firstName }}</p>
+          <p>Last Name: {{ this.lastname }}</p>
+          <p>Father's Name: {{ this.fatherName }}</p>
+          <p>Mobile Mo.: {{ this.mobile_no }}</p>
+          <p>Gender: {{ this.gender }}</p>
+          <p>Adhaar No.: {{ this.adhaar_no }}</p>
+          <p>Pan No.: {{ this.pan_no }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <img src="../../assets/new_client.svg" class="w-100 h-100" alt="" />
+    </div>
+  </div>
+</section>

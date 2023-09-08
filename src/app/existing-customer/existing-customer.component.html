@@ -1,0 +1,40 @@
+<!-- <p>existing-customer works!</p> -->
+
+<section class="container-fluid">
+  <div class="row my-5 mx-3">
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-baseline">
+                    <input
+                      [(ngModel)]="searchAdhaar"
+                      id="search"
+                      class="form-control w-75"
+                      type="text"
+                      placeholder="Enter Adhaar number"
+                    />
+                    <button class="btn btn-success" style="margin-left: -43px" (click)="this.searchCustomer()">
+                        <i id="search-icon" class="bi bi-search"></i>
+                    </button>
+                  </div>
+            </div>
+            <div class="col-12 my-5">
+                <img *ngIf="!data" src="../../assets/noUser.jpg" class="mx-auto w-75 h-100" alt="">
+
+                <div class="preview" *ngIf="data">
+                    <p>First Name: {{ this.firstName }}</p>
+                    <p>Last Name: {{ this.lastName }}</p>
+                    <p>Father's Name: {{ this.fatherName }}</p>
+                    <p>Mobile Mo.: {{ this.mobile_no }}</p>
+                    <p>Pan No.: {{ this.pan_no }}</p>
+                    <p>Pan No.: {{ this.dob }}</p>
+                  </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+      <img src="../../assets/search.jpg" class="w-100" alt="">
+    </div>
+  </div>
+</section>
