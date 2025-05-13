@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
 
-const contractAddress = "0xD031Eb1C676F6FC466C0937dFDc33251DAaA87db";
+const contractAddress = "0x1e3f7ff6483B68D03266Db3eABD2E49e9391Fb76";
 const ABI = [
 	{
 		"inputs": [
@@ -195,7 +195,7 @@ export class Web3Service {
         ABI,
         contractAddress,
       );
-      const token = await contract.methods.setClient('ayushman').send({from: String(window.web3.eth.defaultAccount)})
+      const token = await contract.methods.setClient('ayush').send({from: String(window.web3.eth.defaultAccount)})
       .on('transactionHash', function (hash: any) {
           console.log(hash);
        })

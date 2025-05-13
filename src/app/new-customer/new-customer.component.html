@@ -1,183 +1,238 @@
-<!-- <p>new-customer works!</p> -->
-
-<section id="new_customer" class="container my-2">
+<section id="new_customer" class="container my-4">
   <div class="row">
-    <div class="col-lg-7 p-5">
-      <div
-        class="col-12 col-md-12 d-flex justify-content-around align-items-center sidebar shadow"
-      >
-        <div
-          [class.active]="this.currentForm == 'details'"
-          (click)="change('details')"
-        >
-          Details
+    <div class="col-lg-7">
+      <div class="form-card shadow-lg">
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+          <div class="progress-item" [class.active]="currentForm == 'details'" (click)="change('details')">
+            <div class="progress-circle">1</div>
+            <div class="progress-label">Details</div>
+          </div>
+          <div class="progress-line" [class.active]="currentForm == 'documents' || currentForm == 'preview'"></div>
+          <div class="progress-item" [class.active]="currentForm == 'documents'" (click)="change('documents')">
+            <div class="progress-circle">2</div>
+            <div class="progress-label">Documents</div>
+          </div>
+          <div class="progress-line" [class.active]="currentForm == 'preview'"></div>
+          <div class="progress-item" [class.active]="currentForm == 'preview'" (click)="change('preview')">
+            <div class="progress-circle">3</div>
+            <div class="progress-label">Preview</div>
+          </div>
         </div>
-        <div
-          [class.active]="this.currentForm == 'documents'"
-          (click)="change('documents')"
-        >
-          Documents
-        </div>
-        <div
-          [class.active]="this.currentForm == 'preview'"
-          (click)="change('preview')"
-        >
-          Preview
-        </div>
-      </div>
-      <div class="col-md-12 col-12 p-5 gx-3" [ngSwitch]="this.currentForm">
-        <div class="details" *ngSwitchCase="'details'">
-          <form #detailsForm="ngForm">
-            <div class="form-group">
-              <input
-                [(ngModel)]="this.firstName"
-                #Firstname="ngModel"
-                name="firstName"
-                type="text"
-                class="form-control"
-                placeholder="First Name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                [(ngModel)]="this.lastname"
-                #lastName="ngModel"
-                name="lastName"
-                type="text"
-                class="form-control"
-                placeholder="Last Name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                [(ngModel)]="this.fatherName"
-                #fathername="ngModel"
-                name="fatherName"
-                type="text"
-                class="form-control"
-                placeholder="Father's Name"
-                required
-              />
-            </div>
-            <div class="form-group row">
-              <div class="col-6">
-                <div class="input-group w-100">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">DOB</span>
+        <!-- Form Content Container -->
+        <div class="form-content" [ngSwitch]="currentForm" [ngClass]="'state-' + currentForm">
+          <!-- Details Form -->
+          <div class="form-section details-section" *ngSwitchCase="'details'" [@formAnimation]>
+            <form #detailsForm="ngForm" (ngSubmit)="submitDetails(detailsForm)">
+              <h3 class="form-title">Personal Details</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input [(ngModel)]="firstName" #Firstname="ngModel" name="firstName" type="text" class="form-control"
+                    placeholder="Enter first name" required />
+                  <div class="invalid-feedback" *ngIf="Firstname.invalid && Firstname.touched"> First name is required
                   </div>
-                  <input
-                    [(ngModel)]="this.dob"
-                    #DOB="ngModel"
-                    name="dob"
-                    type="date"
-                    class="form-control"
-                    required
-                  />
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input [(ngModel)]="lastname" #lastName="ngModel" name="lastName" type="text" class="form-control"
+                    placeholder="Enter last name" required />
+                  <div class="invalid-feedback" *ngIf="lastName.invalid && lastName.touched"> Last name is required
+                  </div>
                 </div>
               </div>
-              <div class="col-6">
-                <select
-                  [(ngModel)]="this.gender"
-                  #Gender="ngModel"
-                  name="gender"
-                  class="form-select w-100"
-                  aria-label="Default select"
-                  required
-                >
-                  <option selected disabled>Gender</option>
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
-                  <option value="3">Not-defined</option>
-                </select>
+              <div class="form-group">
+                <label for="fatherName">Father's Name</label>
+                <input [(ngModel)]="fatherName" #fathername="ngModel" name="fatherName" type="text" class="form-control"
+                  placeholder="Enter father's name" required />
+                <div class="invalid-feedback" *ngIf="fathername.invalid && fathername.touched"> Father's name is
+                  required </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="dob">Date of Birth</label>
+                  <input [(ngModel)]="dob" #DOB="ngModel" name="dob" type="date" class="form-control" required />
+                  <div class="invalid-feedback" *ngIf="DOB.invalid && DOB.touched"> Date of birth is required </div>
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select [(ngModel)]="gender" #Gender="ngModel" name="gender" class="form-select" required>
+                    <option selected disabled value="Gender">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="Gender.invalid && Gender.touched"> Please select a gender </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <div class="input-group">
+                  <span class="input-group-text">+91</span>
+                  <input [(ngModel)]="mobile_no" #phone="ngModel" name="mobile_no" type="text" class="form-control"
+                    placeholder="Enter 10-digit mobile number" required pattern="[0-9]{10}" />
+                </div>
+                <div class="invalid-feedback" *ngIf="phone.invalid && phone.touched"> Please enter a valid 10-digit
+                  mobile number </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary btn-next" type="submit" [disabled]="detailsForm.invalid">
+                  <span>Next</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+                <button type="reset" class="btn btn-outline-secondary">Reset</button>
+              </div>
+            </form>
+          </div>
+          <!-- Documents Form -->
+          <div class="form-section documents-section" *ngSwitchCase="'documents'" [@formAnimation]>
+            <form #documentForm="ngForm">
+              <h3 class="form-title">Document Verification</h3>
+              <div class="form-group document-upload">
+                <label for="adhaar">Aadhaar Card</label>
+                <div class="upload-container" [class.has-file]="aadhaarFile">
+                  <input type="file" id="adhaar" class="form-control file-input" accept="image/*"
+                    (change)="onFileSelected($event, 'aadhaar')" />
+                  <label for="adhaar" class="file-label">
+                    <i class="fas" [class.fa-cloud-upload-alt]="!aadhaarFile" [class.fa-check-circle]="aadhaarFile"></i>
+                    <span *ngIf="!aadhaarFile">Upload Aadhaar Card</span>
+                    <span *ngIf="aadhaarFile">{{ aadhaarFile.name }}</span>
+                  </label>
+                </div>
+                <div *ngIf="aadhaarFile" class="file-preview">
+                  <div class="file-info">
+                    <i class="fas fa-file-image"></i>
+                    <span class="file-name">{{ aadhaarFile.name }}</span>
+                    <span class="file-size">({{ (aadhaarFile.size / 1024).toFixed(1) }} KB)</span>
+                    <button type="button" class="btn-remove" (click)="removeFile('aadhaar')">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="adhaar_no">Aadhaar Number</label>
+                <input [(ngModel)]="adhaar_no" #adhaar="ngModel" name="adhaar" type="text" class="form-control"
+                  placeholder="Enter 12-digit Aadhaar number" maxlength="12" minlength="12" required
+                  (input)="validateAdhaarImmediately()" />
+                <div class="feedback-container">
+                  <div *ngIf="adhaar.touched && adhaar.invalid" class="invalid-feedback d-block">
+                    <i class="fas fa-exclamation-circle"></i> Aadhaar number must be 12 digits
+                  </div>
+                  <div *ngIf="adhaar.touched && !this.validAdhar && adhaar.valid" class="invalid-feedback d-block">
+                    <i class="fas fa-exclamation-circle"></i> Invalid Aadhaar number
+                  </div>
+                  <div *ngIf="this.validAdhar && adhaar.touched" class="valid-feedback d-block">
+                    <i class="fas fa-check-circle"></i> Valid Aadhaar Number
+                  </div>
+                </div>
+              </div>
+              <div class="form-group document-upload">
+                <label for="pancard">PAN Card</label>
+                <div class="upload-container" [class.has-file]="panFile">
+                  <input type="file" id="pancard" class="form-control file-input" accept="image/*"
+                    (change)="onFileSelected($event, 'pan')" />
+                  <label for="pancard" class="file-label">
+                    <i class="fas" [class.fa-cloud-upload-alt]="!panFile" [class.fa-check-circle]="panFile"></i>
+                    <span *ngIf="!panFile">Upload PAN Card</span>
+                    <span *ngIf="panFile">{{ panFile.name }}</span>
+                  </label>
+                </div>
+                <div *ngIf="panFile" class="file-preview">
+                  <div class="file-info">
+                    <i class="fas fa-file-image"></i>
+                    <span class="file-name">{{ panFile.name }}</span>
+                    <span class="file-size">({{ (panFile.size / 1024).toFixed(1) }} KB)</span>
+                    <button type="button" class="btn-remove" (click)="removeFile('pan')">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="pan_no">PAN Number</label>
+                <input [(ngModel)]="pan_no" #pan="ngModel" name="pan_no" type="text" class="form-control"
+                  placeholder="Enter PAN number" required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" />
+                <div class="invalid-feedback" *ngIf="pan.invalid && pan.touched"> Please enter a valid PAN number </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-outline-secondary" (click)="change('details')">
+                  <i class="fas fa-arrow-left"></i>
+                  <span>Back</span>
+                </button>
+                <button class="btn btn-primary btn-next" (click)="submitDocuments()"
+                  [disabled]="documentForm.invalid || !validAdhar || isSubmitting">
+                  <ng-container *ngIf="!isSubmitting && !showSuccessMessage">
+                    <span>Next</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </ng-container>
+                  <ng-container *ngIf="isSubmitting">
+                    <span>Processing...</span>
+                    <i class="fas fa-spinner fa-spin"></i>
+                  </ng-container>
+                  <ng-container *ngIf="showSuccessMessage">
+                    <span>Verification Done</span>
+                    <i class="fas fa-check-circle text-success"></i>
+                  </ng-container>
+                </button>
+              </div>
+            </form>
+          </div>
+          <!-- Preview Section -->
+          <div class="form-section preview-section" *ngSwitchCase="'preview'" [@formAnimation]>
+            <h3 class="form-title">Customer Information Preview</h3>
+            <div class="preview-card">
+              <div class="preview-header">
+                <h4>{{ firstName }} {{ lastname }}</h4>
+                <span class="badge bg-success">Verified</span>
+              </div>
+              <div class="preview-body">
+                <div class="preview-item">
+                  <label>Father's Name:</label>
+                  <span>{{ fatherName }}</span>
+                </div>
+                <div class="preview-item">
+                  <label>Date of Birth:</label>
+                  <span>{{ dob | date:'mediumDate' }}</span>
+                </div>
+                <div class="preview-item">
+                  <label>Gender:</label>
+                  <span>{{ gender }}</span>
+                </div>
+                <div class="preview-item">
+                  <label>Mobile Number:</label>
+                  <span>{{ mobile_no }}</span>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-item document">
+                    <label>Aadhaar Number:</label>
+                    <span class="document-number">{{ adhaar_no }}</span>
+                    <i class="fas fa-check-circle text-success"></i>
+                  </div>
+                  <div class="preview-item document">
+                    <label>PAN Number:</label>
+                    <span class="document-number">{{ pan_no }}</span>
+                    <i class="fas fa-check-circle text-success"></i>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="form-group">
-              <input
-                [(ngModel)]="this.mobile_no"
-                #phone="ngModel"
-                name="mobile_no"
-                type="text"
-                class="form-control"
-                placeholder="Mobile Number"
-              />
-            </div>
-
-            <div class="form-group">
-              <button
-                class="btn btn-success"
-                (click)="submitDetails()"
-                [disabled]="detailsForm.invalid"
-              >
-                Next
+            <div class="form-actions">
+              <button class="btn btn-outline-secondary" (click)="change('documents')">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
               </button>
-              <button class="btn btn-secondary mx-1">Reset</button>
+              <!-- <button class="btn btn-success">
+                <i class="fas fa-check"></i>
+                <span>Submit</span>
+              </button> -->
             </div>
-          </form>
-        </div>
-
-        <div class="documents" *ngSwitchCase="'documents'">
-          <form #documentForm="ngForm">
-            <label for="adhaar">Upload Adhaar Card</label>
-            <input
-              type="file"
-              id="adhaar"
-              class="form-control"
-              data-bs-buttonText="Your label here."
-            />
-            <input
-              [(ngModel)]="this.adhaar_no"
-              #adhaar="ngModel"
-              name="adhaar"
-              type="text"
-              class="form-control"
-              placeholder="Adhaar No."
-              maxlength="12"
-              minlength="12"
-              required
-            />
-
-            <p *ngIf="(!this.validAdhar && adhaar.touched) || (adhaar.touched && adhaar.invalid)" class="text-danger">
-              Adhaar number not Valid!
-            </p>
-
-            <p *ngIf="this.validAdhar && adhaar.touched" class="text-success">
-              Valid! Adhaar Number
-            </p>
-
-            <label for="pancard">Upload Pan Card</label>
-            <input type="file" id="pancard" class="form-control" />
-            <input
-              [(ngModel)]="this.pan_no"
-              #pan
-              name="pan_no"
-              type="text"
-              class="form-control"
-              placeholder="Pan Card No."
-              required
-            />
-
-            <button class="btn btn-success" (click)="this.submitDocuments()" [disabled]="documentForm.invalid">
-              Next
-            </button>
-            <button class="btn btn-secondary mx-1">Reset</button>
-          </form>
-        </div>
-
-        <div class="preview" *ngSwitchCase="'preview'">
-          <p>First Name: {{ this.firstName }}</p>
-          <p>Last Name: {{ this.lastname }}</p>
-          <p>Father's Name: {{ this.fatherName }}</p>
-          <p>Mobile Mo.: {{ this.mobile_no }}</p>
-          <p>Gender: {{ this.gender }}</p>
-          <p>Adhaar No.: {{ this.adhaar_no }}</p>
-          <p>Pan No.: {{ this.pan_no }}</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-5">
-      <img src="../../assets/new_client.svg" class="w-100 h-100" alt="" />
+    <div class="col-lg-5 d-flex align-items-center illustration-container">
+      <img src="../../assets/new_client.svg" alt="Customer Registration" class="registration-illustration" />
     </div>
   </div>
-</section>
+</section>yyy

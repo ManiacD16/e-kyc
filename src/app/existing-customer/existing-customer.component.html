@@ -1,40 +1,90 @@
-<!-- <p>existing-customer works!</p> -->
-
-<section class="container-fluid">
-  <div class="row my-5 mx-3">
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex align-items-baseline">
-                    <input
-                      [(ngModel)]="searchAdhaar"
-                      id="search"
-                      class="form-control w-75"
-                      type="text"
-                      placeholder="Enter Adhaar number"
-                    />
-                    <button class="btn btn-success" style="margin-left: -43px" (click)="this.searchCustomer()">
-                        <i id="search-icon" class="bi bi-search"></i>
-                    </button>
-                  </div>
-            </div>
-            <div class="col-12 my-5">
-                <img *ngIf="!data" src="../../assets/noUser.jpg" class="mx-auto w-75 h-100" alt="">
-
-                <div class="preview" *ngIf="data">
-                    <p>First Name: {{ this.firstName }}</p>
-                    <p>Last Name: {{ this.lastName }}</p>
-                    <p>Father's Name: {{ this.fatherName }}</p>
-                    <p>Mobile Mo.: {{ this.mobile_no }}</p>
-                    <p>Pan No.: {{ this.pan_no }}</p>
-                    <p>Pan No.: {{ this.dob }}</p>
-                  </div>
-
-            </div>
+<section id="existing-customer" class="container my-5">
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="search-card shadow-lg">
+        <div class="card-header">
+          <h3 class="search-title">Find Existing Customer</h3>
+          <p class="search-subtitle">Enter Aadhaar number to retrieve customer information</p>
         </div>
+        <div class="search-container">
+          <div class="search-input-group">
+            <input [(ngModel)]="searchAdhaar" id="search" class="form-control" type="text"
+              placeholder="Enter 12-digit Aadhaar number" maxlength="12" minlength="12"
+              [class.is-invalid]="searchAttempted && !isValidAadhaar" />
+            <button class="btn btn-primary search-btn" (click)="searchCustomer()"
+              [disabled]="!searchAdhaar || searchAdhaar.length !== 12">
+              <i class="fas fa-search"></i>
+              <span>Search</span>
+            </button>
+          </div>
+          <div *ngIf="searchAttempted && !isValidAadhaar" class="invalid-feedback d-block">
+            <i class="fas fa-exclamation-circle"></i> Please enter a valid 12-digit Aadhaar number
+          </div>
+        </div>
+        <div class="result-container" [ngClass]="{'show-results': data || searchAttempted || isSearching}">
+          <!-- Loading State -->
+          <div *ngIf="isSearching" class="search-loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Searching for customer information...</p>
+          </div>
+          <!-- No Results State -->
+          <div *ngIf="!data && searchAttempted && !isSearching" class="no-results-container fade-in">
+            <img src="../../assets/noUser.jpg" class="no-user-image" alt="No user found">
+            <div class="no-results-message">
+              <h4>No Customer Found</h4>
+              <p>We couldn't find any customer with this Aadhaar number</p>
+              <button class="btn btn-outline-primary" (click)="resetSearch()">
+                <i class="fas fa-redo"></i> Try Again </button>
+            </div>
+          </div>
+          <!-- Results State -->
+          <div *ngIf="data" class="customer-details-container fade-in">
+            <div class="customer-card">
+              <div class="customer-header">
+                <div class="customer-name-section">
+                  <h4>{{ firstName }} {{ lastName }}</h4>
+                  <span class="badge bg-success">Verified Customer</span>
+                </div>
+                <div class="customer-id">
+                  <span class="id-label">Aadhaar:</span>
+                  <span class="id-value">{{ formatAadhaar(adhaar_no) }}</span>
+                </div>
+              </div>
+              <div class="customer-body">
+                <div class="customer-info-grid">
+                  <div class="info-item">
+                    <label>Father's Name</label>
+                    <span>{{ fatherName }}</span>
+                  </div>
+                  <div class="info-item">
+                    <label>Date of Birth</label>
+                    <span>{{ dob }}</span>
+                  </div>
+                  <div class="info-item">
+                    <label>Mobile Number</label>
+                    <span>{{ formatPhone(mobile_no) }}</span>
+                  </div>
+                  <div class="info-item">
+                    <label>PAN Number</label>
+                    <span>{{ pan_no }}</span>
+                  </div>
+                </div>
+                <!-- <div class="customer-actions">
+                  <button class="btn btn-outline-primary">
+                    <i class="fas fa-edit"></i> Edit Details </button>
+                  <button class="btn btn-outline-success">
+                    <i class="fas fa-file-invoice"></i> View Transactions </button>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-6">
-      <img src="../../assets/search.jpg" class="w-100" alt="">
+    <div class="col-lg-5 d-flex align-items-center illustration-container">
+      <img src="../../assets/search.jpg" alt="Search Illustration" class="search-illustration">
     </div>
   </div>
 </section>
